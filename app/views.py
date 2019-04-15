@@ -3,7 +3,7 @@ from datetime import date
 from flask import render_template, request, redirect, url_for, flash, jsonify
 from flask_login import login_user, logout_user, current_user, login_required
 from app.forms import loginform
-from app.models import posts,likes,users,Followers
+from app.model import posts,likes,users,Followers
 from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename 
 from werkzeug.security import generate_password_hash
