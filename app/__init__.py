@@ -1,16 +1,24 @@
 from flask import Flask
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
+from flask import Flask 
+from flask_wtf.csrf import CSRFProtect
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "secretkey"
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://xloqvullykfxex:300ac5ecaa9f05a003e885ea6186d1813677a8300a465c7e3aedc3600da09599@ec2-75-101-133-29.compute-1.amazonaws.com:5432/dd4ecd3bh42she"
+csrf = CSRFProtect(app)
+app.config['SECRET_KEY'] = "thisisasecret"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://project2:password123@localhost/project2"#this is what will give acess to the database
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True # added just to suppress a warning 
-app.config['UPLOAD_FOLDER']="./app/static/uploads"
+app.config['UPLOAD_FOLDER']="./app/static/uploads"#this is where the profile pictures will be uploaded 
+app.config['PHOTOS']="./app/static/photos"#this is where the potho that are posted will go 
 
-db = SQLAlchemy(app) 
+db = SQLAlchemy(app)
+#login mangement 
+login_maneger=LoginManager() 
+login_maneger.init_app(app)
+login_maneger.login_view='login'
 
 
+app.config.from_object(__name__) 
 
-app.config.from_object(__name__)
-from app import views
+from app import views 
