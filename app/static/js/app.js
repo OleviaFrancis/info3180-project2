@@ -12,6 +12,9 @@ Vue.component('app-header', {
           <li class="nav-item active">
             <router-link class="nav-link" to="/">Home <span class="sr-only">(current)</span></router-link>
           </li>  
+          </ull>
+          
+          <ul class="navbar-nav">
           <li class="nav-item active">
             <router-link class="nav-link" to="/explore">Explore <span class="sr-only">(current)</span></router-link>
           </li>  
@@ -41,11 +44,11 @@ const Home = Vue.component('home', {
     <div class="jumbotron">
         <div class="d-flex justify-content-center">
         <div class="p-2 bg"> 
-        <img   src="/static/pic.jpg" alt="the most basic pic of people smiling i could find if i get copy righted oww well" class="img-thumbnail" />
+        <img   src="/static/home.jpg" alt="A black family, smiling having a great time" class="img-thumbnail" />
         </div>
         <div class="p-2 bg">
         <h1>Photogram</h1> 
-        <p>share your photos here soyou can hype on how much of a basic bitch you are cool</p>  
+        <p>Welcome to Photogram! The place to share all of your family memories with the rest of the world!</p>  
         <div>
         <button id="register" class="btn btn-success" v-on:click="nextpage1" >Register</button> 
         <button id="login" class="btn btn-primary" v-on:click="nextpage2">Login</button>
