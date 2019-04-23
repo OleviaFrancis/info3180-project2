@@ -2,18 +2,18 @@
 Vue.component('app-header', {
     template: `
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
-      <a class="navbar-brand" href="/">Photogram</a>
+      <a class="navbar-brand" href="/"><i class="fa fa-instagram" style="font-size:24px">Photogram</i></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
     
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+          </ul>
+          <ul class="navbar-nav">
           <li class="nav-item active">
             <router-link class="nav-link" to="/">Home <span class="sr-only">(current)</span></router-link>
-          </li>  
-          </ull>
-          
+          </li> 
           <ul class="navbar-nav">
           <li class="nav-item active">
             <router-link class="nav-link" to="/explore">Explore <span class="sr-only">(current)</span></router-link>
@@ -50,7 +50,7 @@ const Home = Vue.component('home', {
         <h1>Photogram</h1> 
         <p>Welcome to Photogram! The place to share all of your family memories with the rest of the world!</p>  
         <div>
-        <button id="register" class="btn btn-success" v-on:click="nextpage1" >Register</button> 
+        <button id="register" class="btn btn-success" v-on:click="nextpage1">Register</button>
         <button id="login" class="btn btn-primary" v-on:click="nextpage2">Login</button>
         </div>
         </div>

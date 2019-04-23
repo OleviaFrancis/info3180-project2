@@ -97,7 +97,9 @@ def login():
         if user != None and check_password_hash(user.password, password):
             login_user(user)
             print(current_user.id)
-            return jsonify({"message":"you are now logged in","user_id":user.id,"usersame":user.username})
+            flash('Logged in successfully.', 'success')
+            return redirect(url_for('home'))
+            # return jsonify({"message":"you are now logged in","user_id":user.id,"usersame":user.username})
         return jsonify({"message":"invalid password and/or username"})  
     
     errors=form_errors(form) 
@@ -106,8 +108,8 @@ def login():
 @app.route('/api/auth/logout')
 @login_required 
 def logout():
-    logout_user()
-    return jsonify({'message':"you are now logged out"}) 
+    flash('you are now logged out', 'danger')
+    return redirect(url_for('home')) 
     
 
 @app.route("/api/current_user")
