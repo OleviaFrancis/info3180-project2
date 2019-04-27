@@ -57,7 +57,7 @@ body {
 }
 
 #expl .jumbotron{
-    width: 500px;
+    width: 400px;
     border: 2px outset white;
     background-color:#fffdfc;
     font-family: Arial;
@@ -79,7 +79,7 @@ body {
 }
 
 .img-fluid{
-    width:100%;
+    width:500px;
     align-content: center;
     padding-left:15px;
     
@@ -112,7 +112,6 @@ body {
 
 #myprofile .jumbotron{
     width: 980px;
-    border: 2px outset white;
     background-color:#fffdfc;
     font-family: Arial;
     font-size: 16;
@@ -141,4 +140,19 @@ body {
     border: 3px solid white;
     padding-bottom:20px;
     
+}
+
+
+#postform{
+    font-family: sans-serif;
+    font-size: 16;
+    font-weight:bold;
+    border: 5px outset white;
+    padding: 25px;
+    background-color: white;
+    
+}
+
+#postform button{
+    align-content:center;
 }

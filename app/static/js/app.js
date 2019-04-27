@@ -54,7 +54,7 @@ const Home = Vue.component('home', {
         </div>
         <div class="p-2 bg">
         <h1>Photogram</h1> 
-        <p>Welcome to Photogram! The place to share all of your family memories with the rest of the world!</p>  
+        <p>Welcome to Photogram! The place to share all of your family's memories with the rest of the world!</p>  
         <div>
         <button id="register" class="btn btn-success" v-on:click="nextpage1">Register</button>
         <button id="login" class="btn btn-primary" v-on:click="nextpage2">Login</button>
@@ -105,7 +105,7 @@ const Login =Vue.component('Login',{
     <br>
     <div class="d-flex flex-column"> 
     <p></p>
-    <button type="submit" name="submit" class="btn btn-success"><router-link to='/my_profile'>LOGIN</router-link></button> 
+    <router-link to='/my_profile'><button type="submit" name="submit" class="btn btn-success">LOGIN</button></router-link> 
     </div>
     </form>
     </div> 
@@ -177,7 +177,7 @@ const newpost= Vue.component('newpost',{
     </div>
     <div class="d-flex flex-column"> 
     <p></p>
-    <button type="submit" name="submit" class="btn btn-primary"><router-link to='/explore'>POST</router-link></button> 
+    <router-link to='/explore'><button id="npost" type="submit" name="submit" class="btn btn-success">POST</button></router-link> 
     </div> 
     </form>
     </div>
@@ -380,7 +380,7 @@ const explore=Vue.component('explore',{
      
     </div> 
     <div class=".col-lg-">
-    <button id="upload" class="btn btn-primary" v-on:click="nextpage1" >New Post</button>
+    <button id="upload" class="btn btn-primary" v-on:click="nextpage1">New Post</button>
     </div> 
     </div>
     </div>
@@ -462,12 +462,15 @@ const explore=Vue.component('explore',{
         <p> Location: {{user_info.location}}</p>
         <p>Member since: {{user_info.join_on}}</p>
         <p>{{user_info.biography}} </p> 
+        <hr>
         </div>
         </div>
         
         </div> 
-        <div v-for= "i in pics" class="card">
+        <div id="pix">
+        <div v-for= "i in pics" class="card" style="width:280px;height:200px;padding:5%;float:left;">
         <img  class="card-img-top" v-bind:src="'static/photos/' + i.pic"/>
+        </div>
         
         </div>
         
@@ -512,7 +515,7 @@ const explore=Vue.component('explore',{
         </div> 
         
         </div> 
-        <div v-for= "i in posts" class="card">
+        <div v-for= "i in posts" class="card" style="width:280px;height:200px;padding:5%;float:left;"">
         <img  class="card-img-top" v-bind:src="'../static/photos/' + i.pic"/>
         
         </div>
