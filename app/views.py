@@ -15,6 +15,36 @@ import json
 from werkzeug.utils import secure_filename 
 from flask_login import LoginManager
 
+def requires_auth(f):
+  @wraps(f)
+  def decorated(*args, **kwargs):
+    auth = request.headers.get('Authorization', None)
+    if not auth:
+      return jsonify({'code': 'authorization_header_missing', 'description': 'Authorization header is expected'}), 401
+
+    parts = auth.split()
+
+    if parts[0].lower() != 'bearer':
+      return jsonify({'code': 'invalid_header', 'description': 'Authorization header must start with Bearer'}), 401
+    elif len(parts) == 1:
+      return jsonify({'code': 'invalid_header', 'description': 'Token not found'}), 401
+    elif len(parts) > 2:
+      return jsonify({'code': 'invalid_header', 'description': 'Authorization header must be Bearer + \s + token'}), 401
+
+    token = parts[1]
+    try:
+         payload = jwt.decode(token, 'some-secret')
+
+    except jwt.ExpiredSignature:
+        return jsonify({'code': 'token_expired', 'description': 'token is expired'}), 401
+    except jwt.DecodeError:
+        return jsonify({'code': 'token_invalid_signature', 'description': 'Token signature is invalid'}), 401
+
+    g.current_user = user = payload
+    return f(*args, **kwargs)
+
+  return decorated
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def index(path):
@@ -78,7 +108,7 @@ def register():
         newuser=users(username,password,firstname,lastname,email,location,biography,filename,join_on)
         db.session.add(newuser)
         db.session.commit() 
-        return jsonify({"message": "New user added successfully"}) 
+        return jsonify({"message": "New user has been made"}) 
     
     
     errors=form_errors(form) 
@@ -97,7 +127,7 @@ def login():
         if user != None and check_password_hash(user.password, password):
             login_user(user)
             print(current_user.id)
-            return jsonify({"message":"You are logged in"})
+            return jsonify({"message":"You are now logged in"})
         return jsonify({"message":"invalid password and/or username"})  
     
     errors=form_errors(form) 
@@ -107,7 +137,7 @@ def login():
 @login_required 
 def logout():
     logout_user()
-    return jsonify({'message':"You are logged out"}) 
+    return jsonify({'message':"Thank you for visiting Photogram!"}) 
     
 
 @app.route("/api/current_user")
@@ -129,14 +159,10 @@ def get_id():
 
 @app.route("/api/userinfo/<user_id>")
 @login_required 
-def get_allpost(user_id):
-    l=[]
+def get_allpost(user_id): 
     info= users.query.filter_by(id=user_id) 
-    follow=Followers.query.filter_by(user_id=user_id)
-    print(follow) 
-    for t in follow:
-        l.append(t.id) 
-    num=len(l)
+   # follow=followers.query.filter_by(user_id=user_id)
+    #print(follow)
     for i in info:
          username=i.username
          firstname=i.firstname
@@ -145,7 +171,7 @@ def get_allpost(user_id):
          biography=i.biography 
          profile_picture=i.profile_picture 
          joined_on=i.joined_on
-    return jsonify({"name":username,"firstname":firstname,"lastname":lastname,"location":location,"biography":biography,"profile_picture":profile_picture,"joined_on":joined_on,"followers":num})
+    return jsonify({"name":username,"firstname":firstname,"lastname":lastname,"location":location,"biography":biography,"profile_picture":profile_picture,"joined_on":joined_on})
     
 
 
@@ -185,9 +211,6 @@ def usersposts(id):
         allposts.append(dic)
     return jsonify({"posts":allposts})
 
-
-
-
 @app.route('/api/post')    
 @login_required 
 def allposts():
@@ -202,7 +225,9 @@ def allposts():
         for t in totallikes:
             total.append(t.post_id)
         alllikes=len(total)
-        dic={"user_id":i.user_id,"id":i.id,"caption":i.caption,"photo":i.photo,"created_on":i.created_on,"likes":alllikes}
+        name = users.query.get(i.user_id).username
+        pp = users.query.get(i.user_id).profile_picture
+        dic={"user_id":i.user_id,"id":i.id,"caption":i.caption,"photo":i.photo,"created_on":i.created_on,"likes":alllikes,"name":name, "pp":pp}
         theposts.append(dic)
         #print(dic)
     return jsonify({"posts":theposts}) 
@@ -238,5 +263,4 @@ def follow(user_id):
         num.append(i.user_id)
     num2=len(num)
     print(num2)
-    return jsonify({"message":"You are now a follower","followers":num2}) 
-    
+    return jsonify({"message":"You are now a follower!","followers":num2}) 

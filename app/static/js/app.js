@@ -1,8 +1,9 @@
 /* Add your Application JavaScript */ 
 Vue.component('app-header', {
     template: `
+    <div id="nav">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
-      <a class="navbar-brand" href="/"><i class="fa fa-instagram" style="font-size:24px;">Photogram</i></a>
+      <a class="navbar-brand" href="/"><i class="fa fa-instagram" style="font-size:24px">Photogram</i></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -27,6 +28,7 @@ Vue.component('app-header', {
         </ul>
       </div>
     </nav>
+    </div>
     `
 });
 
@@ -43,11 +45,12 @@ Vue.component('app-footer', {
 const Home = Vue.component('home', {
    template:
    ` 
+   <div id="hpge">
    <div class="d-flex justify-content-center">
     <div class="jumbotron">
         <div class="d-flex justify-content-center">
         <div class="p-2 bg"> 
-        <img   src="/static/home.jpg" alt="A black family, smiling having a great time" class="img-thumbnail" />
+        <img src="/static/home.jpg" alt="A black family, smiling having a great time" class="img-thumbnail" />
         </div>
         <div class="p-2 bg">
         <h1>Photogram</h1> 
@@ -77,30 +80,37 @@ const Home = Vue.component('home', {
 
 const Login =Vue.component('Login',{
     template:`
+    <div id="lgn">
     <div class="d-flex justify-content-center">
     <div>
     <h2>Login</h2>
     <div class="jumbotron"> 
     <form id="loginform" action="/api/auth/login" method="POST" enctype = "multipart/form-data" @submit.prevent="loginuser">
     <div>
-    <label>username</label> 
+    <br>
+    <br>
+    <label>Username</label> 
     </div>
     <div>
     <input id="username" name="username" type="text" />
     </div> 
     <div>
-    <label>password</label> 
+    <br>
+    <label>Password</label> 
     </div> 
     <div> 
     <input id="password" name="password" type="password" />
     </div> 
+    <br>
+    <br>
     <div class="d-flex flex-column"> 
     <p></p>
-    <button type="submit" name="submit" class="btn btn-success"><router-link :to="explore">LOGIN</router-link</button> 
+    <button type="submit" name="submit" class="btn btn-success"><router-link to='/my_profile'>LOGIN</router-link></button> 
     </div>
     </form>
     </div> 
     </div> 
+    </div>
     </div>
     `,
     created:function(){
@@ -136,7 +146,7 @@ const Login =Vue.component('Login',{
                 
                 self.current_user=information
                 console.log(current_user)
-                if(current_user.message == "you are now logged in"){ 
+                if(current_user.message == "You are now logged in"){ 
                     console.log("in here")
                      self.$router.push("/explore")
                      }
@@ -167,7 +177,7 @@ const newpost= Vue.component('newpost',{
     </div>
     <div class="d-flex flex-column"> 
     <p></p>
-    <button type="submit" name="submit" class="btn btn-primary">POST</button> 
+    <button type="submit" name="submit" class="btn btn-primary"><router-link to='/explore'>POST</router-link></button> 
     </div> 
     </form>
     </div>
@@ -200,7 +210,7 @@ const newpost= Vue.component('newpost',{
                  
                  let information=jsonResponse
                  console.log(information.message); 
-                 if (information.message == "the post was made sucess fully"){
+                 if (information.message == "You were successful"){
                      console.log("in here")
                     //self.$router.push("/explore") 
                     this.flashMessage.show({status: 'error', title: 'Error Message Title', message: 'Oh, you broke my heart! Shame on you!'})
@@ -250,6 +260,7 @@ const logout=Vue.component('logout',{
 
 const register=Vue.component('register',{
     template:`
+    <div id="rgr">
     <div class="d-flex justify-content-center"> 
     <div>
     <h2>Register</h2>
@@ -305,10 +316,11 @@ const register=Vue.component('register',{
     </div> 
     <div class="d-flex flex-column"> 
     <p></p>
-    <button type="submit" name="submit" class="btn btn-success"><REGISTER</button> 
+    <button type="submit" name="submit" class="btn btn-success"><router-link to='/my_profile'>REGISTER</router-link></button> 
     </div>
     </form>
     </div> 
+    </div>
     </div>
     </div>
     `,
@@ -343,22 +355,34 @@ const register=Vue.component('register',{
 
 const explore=Vue.component('explore',{
     template:` 
+    <div id="expl">
     <div class="d-flex justify-content-center"> 
     <div class="row">
     <div class=".col-lg-">
-    
+
     <div v-for="(i,index) in posts" class="jumbotron" :key="index" > 
-    <p v-on:click="profile(index)">click here</P>
-    <img  class="img-fluid" v-bind:src="'static/photos/' + i.photo"/>
+    <div id="uname">
+    <p v-on:click="profile(index)" class="post-header-of-username"> <img v-bind:src="'/static/uploads/' + i.pp" alt="User profile picture" style="border-radius: 50%;height:15%;width:15%;" > {{i.name}} </p>
+    </div>
+    <hr>
+    <img class="img-fluid" v-bind:src="'static/photos/' + i.photo"/>
+    <hr>
     <p id="caption" :value=i.caption> {{ i.caption}}</p>
+    <div id="postb">
+    <div id="date">
     <p>{{i.created_on}} {{index}}</p> 
-    <p id="liker" v-on:click="like_post(index)">Heart icon {{i.likes}} likes <span class="glyphicon glyphicon-heart"></span></p>
+    </div>
+    <div id="likes">
+    <p id="liker" v-on:click="like_post(index)"><i class="fa fa-heart" style="font-size:16px"> {{i.likes}} likes </a></p>
+    </div>
+    </div>
     </div>
      
     </div> 
-    <div class=".col-lg-"> 
+    <div class=".col-lg-">
     <button id="upload" class="btn btn-primary" v-on:click="nextpage1" >New Post</button>
     </div> 
+    </div>
     </div>
     </div>
         `,data:function(){ 
@@ -425,28 +449,29 @@ const explore=Vue.component('explore',{
  
  const my_profile =Vue.component('my_profile',{
      template:`
+     <div id="myprofile">
      <div class="d-flex justify-content-center">
      <div class="jumbotron">
      <div class="d-flex justify-content-center">
-        <div class="p-2 bg"> 
-        <img class="img-thumbnail" v-bind:src="'static/uploads/' + user_info.profile_picture" style="width:250px;height:250px;"/>
+        <div class="p-2 bg">
+        <img class="img-thumbnail" v-bind:src="'static/uploads/' + user_info.profile_picture" style="width:250px;height:250px;border-radius:50%;"/>
         </div>
         <div class="p-2 bg">
+        <div id="info">
         <h5>{{user_info.firstname}} {{user_info.lastname}}</h5>
-        <p>member since {{user_info.join_on}}</p>
-        <p>{{user_info.biography}} </p>  
-        <div>
-        
-        
+        <p> Location: {{user_info.location}}</p>
+        <p>Member since: {{user_info.join_on}}</p>
+        <p>{{user_info.biography}} </p> 
         </div>
-        </div> 
+        </div>
         
         </div> 
         <div v-for= "i in pics" class="card">
         <img  class="card-img-top" v-bind:src="'static/photos/' + i.pic"/>
         
         </div>
-        </div>
+        
+     </div>
      </div>
      `,
      created:function(){
@@ -481,7 +506,7 @@ const explore=Vue.component('explore',{
         </div>
         <div class="p-2 bg">
         <h5>{{user_info.firstname}} {{user_info.lastname}}</h5>
-        <p>member since {{user_info.joined_on}}</p>
+        <p>Member since {{user_info.joined_on}}</p>
         <p>{{user_info.biography}} </p>  
         <button id="follow" class="btn btn-primary" v-on:click="follow" >Follow</button>
         </div> 
