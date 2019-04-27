@@ -12,3 +12,4 @@ Flask-Script
 Flask-Login
 psycopg2
 python-3.7.1
+gunicorn
